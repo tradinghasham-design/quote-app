@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 const quotes = [
@@ -7,21 +7,22 @@ const quotes = [
   { text: "Dream big, start small, act now.", author: "Robin Sharma" },
   { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
   { text: "Success is not final, failure is not fatal.", author: "Winston Churchill" },
+  { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+  { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
 ];
 
 function QuoteCard({ onFavorite }) {
   const [index, setIndex] = useState(0);
   const [saved, setSaved] = useState(false);
-  const [backendStatus, setBackendStatus] = useState('');
-
-  useEffect(() => {
-axios.get('https://quote-backend-opgfjleau-onlinesellingpak-9181s-projects.vercel.app/')      .then(res => setBackendStatus('Backend Connected!'))
-      .catch(() => setBackendStatus('Backend not connected'));
-  }, []);
+  const [animate, setAnimate] = useState(false);
 
   const newQuote = () => {
-    setIndex(Math.floor(Math.random() * quotes.length));
-    setSaved(false);
+    setAnimate(true);
+    setTimeout(() => {
+      setIndex(Math.floor(Math.random() * quotes.length));
+      setSaved(false);
+      setAnimate(false);
+    }, 300);
   };
 
   const saveQuote = () => {
@@ -30,15 +31,31 @@ axios.get('https://quote-backend-opgfjleau-onlinesellingpak-9181s-projects.verce
   };
 
   return (
-    <div style={{maxWidth:'600px', margin:'100px auto', padding:'40px', borderRadius:'12px', boxShadow:'0 4px 20px rgba(0,0,0,0.1)', textAlign:'center', backgroundColor:'#fff'}}>
-      <p style={{fontSize:'12px', color: backendStatus === 'Backend Connected!' ? 'green' : 'red'}}>{backendStatus}</p>
-      <p style={{fontSize:'14px', color:'#888'}}>QUOTE OF THE DAY</p>
-      <p style={{fontSize:'24px', color:'#333'}}>"{quotes[index].text}"</p>
-      <p style={{color:'#666'}}>— {quotes[index].author}</p>
-      <button onClick={newQuote} style={{marginTop:'20px', marginRight:'10px', padding:'10px 30px', backgroundColor:'#4CAF50', color:'#fff', border:'none', borderRadius:'8px', cursor:'pointer'}}>New Quote</button>
-      <button onClick={saveQuote} style={{marginTop:'20px', padding:'10px 30px', backgroundColor: saved ? '#ccc' : '#e74c3c', color:'#fff', border:'none', borderRadius:'8px', cursor:'pointer'}}>
-        {saved ? 'Saved!' : '❤ Save'}
-      </button>
+    <div style={{minHeight:'90vh', background:'linear-gradient(135deg, #0f0c29, #302b63, #24243e)', display:'flex', alignItems:'center', justifyContent:'center', padding:'20px'}}>
+      <div style={{maxWidth:'650px', width:'100%', textAlign:'center'}}>
+
+        <div style={{fontSize:'80px', marginBottom:'20px', filter:'drop-shadow(0 0 20px rgba(102,126,234,0.8))'}}>💬</div>
+
+        <p style={{fontSize:'12px', letterSpacing:'5px', color:'#667eea', fontWeight:'700', marginBottom:'40px', textTransform:'uppercase'}}>Quote of the Day</p>
+
+        <div style={{background:'rgba(255,255,255,0.05)', backdropFilter:'blur(20px)', borderRadius:'24px', padding:'50px 40px', border:'1px solid rgba(255,255,255,0.1)', marginBottom:'30px', opacity: animate ? 0 : 1, transition:'opacity 0.3s ease'}}>
+          <p style={{fontSize:'24px', color:'#fff', lineHeight:'1.9', marginBottom:'25px', fontStyle:'italic', fontWeight:'300'}}>
+            "{quotes[index].text}"
+          </p>
+          <div style={{width:'50px', height:'2px', background:'linear-gradient(135deg,#667eea,#764ba2)', margin:'0 auto 20px'}}></div>
+          <p style={{fontSize:'16px', color:'#667eea', fontWeight:'600', letterSpacing:'1px'}}>— {quotes[index].author}</p>
+        </div>
+
+        <div style={{display:'flex', gap:'15px', justifyContent:'center', flexWrap:'wrap'}}>
+          <button onClick={newQuote} style={{padding:'16px 40px', background:'linear-gradient(135deg, #667eea, #764ba2)', color:'#fff', border:'none', borderRadius:'50px', fontSize:'16px', cursor:'pointer', fontWeight:'600', letterSpacing:'1px', boxShadow:'0 10px 30px rgba(102,126,234,0.4)'}}>
+            ✨ New Quote
+          </button>
+          <button onClick={saveQuote} style={{padding:'16px 40px', background: saved ? 'rgba(255,255,255,0.1)' : 'linear-gradient(135deg, #f093fb, #f5576c)', color:'#fff', border: saved ? '1px solid rgba(255,255,255,0.2)' : 'none', borderRadius:'50px', fontSize:'16px', cursor:'pointer', fontWeight:'600', letterSpacing:'1px', boxShadow: saved ? 'none' : '0 10px 30px rgba(240,147,251,0.4)'}}>
+            {saved ? '✅ Saved!' : '❤️ Save Quote'}
+          </button>
+        </div>
+
+      </div>
     </div>
   );
 }

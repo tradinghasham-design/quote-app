@@ -11,11 +11,11 @@ function Login({ onLogin }) {
   const handleSubmit = async () => {
     try {
       if (isRegister) {
-        await axios.post('http://localhost:5000/api/auth/register', { name, email, password });
+        await axios.post('https://quote-backend-opgfjleau-onlinesellingpak-9181s-projects.vercel.app/api/auth/register', { name, email, password });
         setMessage('Account ban gaya! Ab login karo!');
         setIsRegister(false);
       } else {
-        const res = await axios.post('https://quote-backend-opgfjleau-onlinesellingpak-9181s-projects.vercel.appapi/auth/login', { email, password });
+        const res = await axios.post('https://quote-backend-opgfjleau-onlinesellingpak-9181s-projects.vercel.app/api/auth/login', { email, password });
         localStorage.setItem('token', res.data.token);
         onLogin(res.data.name);
       }
@@ -25,14 +25,31 @@ function Login({ onLogin }) {
   };
 
   return (
-    <div style={{maxWidth:'400px', margin:'100px auto', padding:'40px', borderRadius:'12px', boxShadow:'0 4px 20px rgba(0,0,0,0.1)', backgroundColor:'#fff'}}>
-      <h2 style={{textAlign:'center', marginBottom:'30px'}}>{isRegister ? 'Register' : 'Login'}</h2>
-      {isRegister && <input placeholder="Name" value={name} onChange={e=>setName(e.target.value)} style={{width:'100%', padding:'10px', marginBottom:'15px', borderRadius:'8px', border:'1px solid #ddd', boxSizing:'border-box'}} />}
-      <input placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} style={{width:'100%', padding:'10px', marginBottom:'15px', borderRadius:'8px', border:'1px solid #ddd', boxSizing:'border-box'}} />
-      <input placeholder="Password" type="password" value={password} onChange={e=>setPassword(e.target.value)} style={{width:'100%', padding:'10px', marginBottom:'20px', borderRadius:'8px', border:'1px solid #ddd', boxSizing:'border-box'}} />
-      {message && <p style={{color:'green', textAlign:'center'}}>{message}</p>}
-      <button onClick={handleSubmit} style={{width:'100%', padding:'12px', backgroundColor:'#4CAF50', color:'#fff', border:'none', borderRadius:'8px', fontSize:'16px', cursor:'pointer'}}>{isRegister ? 'Register' : 'Login'}</button>
-      <p onClick={()=>setIsRegister(!isRegister)} style={{textAlign:'center', marginTop:'15px', cursor:'pointer', color:'#4CAF50'}}>{isRegister ? 'Login karo' : 'Account banao'}</p>
+    <div style={{minHeight:'90vh', background:'linear-gradient(135deg, #0f0c29, #302b63, #24243e)', display:'flex', alignItems:'center', justifyContent:'center', padding:'20px'}}>
+      <div style={{maxWidth:'420px', width:'100%'}}>
+        <div style={{textAlign:'center', marginBottom:'40px'}}>
+          <div style={{fontSize:'60px', marginBottom:'10px'}}>🔐</div>
+          <p style={{fontSize:'12px', letterSpacing:'5px', color:'#43e97b', fontWeight:'700'}}>{isRegister ? 'CREATE ACCOUNT' : 'WELCOME BACK'}</p>
+        </div>
+
+        <div style={{background:'rgba(255,255,255,0.05)', backdropFilter:'blur(20px)', borderRadius:'24px', padding:'40px', border:'1px solid rgba(255,255,255,0.1)'}}>
+          {isRegister && (
+            <input placeholder="Your Name" value={name} onChange={e=>setName(e.target.value)} style={{width:'100%', padding:'14px 20px', marginBottom:'15px', borderRadius:'50px', border:'1px solid rgba(255,255,255,0.2)', background:'rgba(255,255,255,0.05)', color:'#fff', fontSize:'15px', boxSizing:'border-box', outline:'none'}} />
+          )}
+          <input placeholder="Email Address" value={email} onChange={e=>setEmail(e.target.value)} style={{width:'100%', padding:'14px 20px', marginBottom:'15px', borderRadius:'50px', border:'1px solid rgba(255,255,255,0.2)', background:'rgba(255,255,255,0.05)', color:'#fff', fontSize:'15px', boxSizing:'border-box', outline:'none'}} />
+          <input placeholder="Password" type="password" value={password} onChange={e=>setPassword(e.target.value)} style={{width:'100%', padding:'14px 20px', marginBottom:'20px', borderRadius:'50px', border:'1px solid rgba(255,255,255,0.2)', background:'rgba(255,255,255,0.05)', color:'#fff', fontSize:'15px', boxSizing:'border-box', outline:'none'}} />
+
+          {message && <p style={{color:'#43e97b', textAlign:'center', marginBottom:'15px', fontSize:'14px'}}>{message}</p>}
+
+          <button onClick={handleSubmit} style={{width:'100%', padding:'16px', background:'linear-gradient(135deg, #43e97b, #38f9d7)', color:'#000', border:'none', borderRadius:'50px', fontSize:'16px', cursor:'pointer', fontWeight:'700', letterSpacing:'1px', boxShadow:'0 10px 30px rgba(67,233,123,0.3)'}}>
+            {isRegister ? '🚀 Create Account' : '✨ Login'}
+          </button>
+
+          <p onClick={()=>setIsRegister(!isRegister)} style={{textAlign:'center', marginTop:'20px', cursor:'pointer', color:'rgba(255,255,255,0.5)', fontSize:'14px'}}>
+            {isRegister ? 'Already have account? Login' : "Don't have account? Register"}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
