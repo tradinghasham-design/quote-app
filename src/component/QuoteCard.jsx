@@ -15,8 +15,7 @@ function QuoteCard({ onFavorite }) {
   const [backendStatus, setBackendStatus] = useState('');
 
   useEffect(() => {
-   axios.get('http://127.0.0.1:5000/')
-      .then(res => setBackendStatus('Backend Connected!'))
+axios.get('https://quote-backend-opgfjleau-onlinesellingpak-9181s-projects.vercel.app/')      .then(res => setBackendStatus('Backend Connected!'))
       .catch(() => setBackendStatus('Backend not connected'));
   }, []);
 

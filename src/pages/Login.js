@@ -15,7 +15,7 @@ function Login({ onLogin }) {
         setMessage('Account ban gaya! Ab login karo!');
         setIsRegister(false);
       } else {
-        const res = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+        const res = await axios.post('https://quote-backend-opgfjleau-onlinesellingpak-9181s-projects.vercel.appapi/auth/login', { email, password });
         localStorage.setItem('token', res.data.token);
         onLogin(res.data.name);
       }
