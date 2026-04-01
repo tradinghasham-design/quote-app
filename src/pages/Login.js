@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const API = 'https://quote-backend-opgfjleau-onlinesellingpak-9181s-projects.vercel.app';
-
-function Login({ onLogin }) {
+const API = 'https://quote-backend-jsy677wit-onlinesellingpak-9181s-projects.vercel.app';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
